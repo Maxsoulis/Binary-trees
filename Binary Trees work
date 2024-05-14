@@ -1,0 +1,82 @@
+ #include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+struct node{
+    struct node*right;
+    struct node*left;
+    int data;
+     node(int data) {
+    this->data = data;
+    left = right = NULL;
+  }
+};
+void inorderTraversal(node* rootNode ){
+   if(rootNode == NULL){
+        return;
+    }
+    inorderTraversal(rootNode->left);
+     cout << rootNode->data << " ";
+    inorderTraversal(rootNode->right);
+    
+    
+    
+}
+void postorderTraversal(node* rootNode){
+    if(rootNode == NULL){
+        return;
+    }
+    postorderTraversal(rootNode ->left);
+    postorderTraversal(rootNode ->right);
+    cout << rootNode ->data << " ";
+}
+void preorderTraversal(node* rootNode){
+    if(rootNode == NULL){
+        return;
+    }
+    cout << rootNode ->data << " ";
+    preorderTraversal(rootNode -> left);
+    preorderTraversal(rootNode -> right);
+    
+}
+struct node* insertNode(node* newNode, int x){
+    
+        if(newNode == NULL){
+            return new node(x);
+        }
+        if(x < newNode->data){
+            newNode->left = insertNode(newNode->left, x);
+        }
+        else  newNode->right = insertNode(newNode->right,  x);
+        
+        return newNode;
+    
+
+}
+void insertArrayToTree(node* newNode, int array[], int size){
+    if(size==0){
+        return;
+    }
+    for(int i = 0; i < size; i ++){
+        insertNode(newNode, array[i]);
+    }
+}
+int main(){
+    node* root;
+    node* newNode;
+    
+    root = new node(12);   
+    
+     
+    int array[12] = {32, 2, 5,99, 23,54, 9, 4, 7, 98, 6, 1};
+    insertArrayToTree(root, array, 12);
+    cout << "Inorder traversal" << '\n';
+    inorderTraversal(root);
+    cout << '\n';
+    cout << "Postorder traversal" << '\n';
+    postorderTraversal(root);
+    cout << '\n';
+    cout << "Preorder traversal" << '\n';
+    preorderTraversal(root);
+    
+}
