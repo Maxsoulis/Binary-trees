@@ -2,47 +2,34 @@
 #include <fstream>
 #include <string>
 using namespace std;
+int Max = 0;
 struct node{
     struct node*right;
     struct node*left;
     int data;
-     node(int data) {
+    int pos;
+     node(int data, int pos) {
     this->data = data;
+    this->pos = pos;
     left = right = NULL;
   }
 };
-void inorderTraversal(node* rootNode ){
+void sortArray(node* rootNode, int(&arrayToSort)[] ){
    if(rootNode == NULL){
+        Max += 1;
         return;
     }
-    inorderTraversal(rootNode->left);
-     cout << rootNode->data << " ";
-    inorderTraversal(rootNode->right);
     
-    
-    
+    sortArray(rootNode->left, arrayToSort);
+    rootNode->pos += Max;
+    arrayToSort [rootNode->pos - 1 ] = rootNode->data;
+    sortArray(rootNode->right, arrayToSort);
 }
-void postorderTraversal(node* rootNode){
-    if(rootNode == NULL){
-        return;
-    }
-    postorderTraversal(rootNode ->left);
-    postorderTraversal(rootNode ->right);
-    cout << rootNode ->data << " ";
-}
-void preorderTraversal(node* rootNode){
-    if(rootNode == NULL){
-        return;
-    }
-    cout << rootNode ->data << " ";
-    preorderTraversal(rootNode -> left);
-    preorderTraversal(rootNode -> right);
-    
-}
+ 
 struct node* insertNode(node* newNode, int x){
     
         if(newNode == NULL){
-            return new node(x);
+            return new node(x, 0);
         }
         if(x < newNode->data){
             newNode->left = insertNode(newNode->left, x);
@@ -65,18 +52,16 @@ int main(){
     node* root;
     node* newNode;
     
-    root = new node(12);   
+    root = new node(12, 0);   
     
-     
-    int array[12] = {32, 2, 5,99, 23,54, 9, 4, 7, 98, 6, 1};
-    insertArrayToTree(root, array, 12);
-    cout << "Inorder traversal" << '\n';
-    inorderTraversal(root);
-    cout << '\n';
-    cout << "Postorder traversal" << '\n';
-    postorderTraversal(root);
-    cout << '\n';
-    cout << "Preorder traversal" << '\n';
-    preorderTraversal(root);
+    int size = 14;
+    int array[size] = {32, 2, 5,99, 23,54, 9, 4, 7, 98, 6, 1, 235, 1};
+    insertArrayToTree(root, array, size);
+    sortArray(root, array);
+    
+    cout << "\nSorted Array" << '\n';
+    for(int i = 0; i <= size; i++){
+        cout << array[i] << " ";
+    }
     
 }
