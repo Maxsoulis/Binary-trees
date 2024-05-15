@@ -50,11 +50,30 @@ void insertArrayToTree(node* newNode, int array[], int size){
         insertNode(newNode, array[i]);
     }
 }
+void searchTree(node* rootNode, int valueToFind){
+    if(rootNode == NULL){
+        cout << valueToFind << " not found" << '\n';
+        return;
+    }
+    if(rootNode->data == valueToFind){
+        cout << valueToFind << " found at " << rootNode->pos << '\n';
+        return;
+    }
+    if(valueToFind < rootNode->data){
+        searchTree(rootNode->left, valueToFind);
+    }
+     if(valueToFind > rootNode->data) 
+   { searchTree(rootNode->right, valueToFind);
+       
+   }
+      
+
+}
 int main(){
     node* root;
     root = new node(12, 0);   
-    int size = 14;
-    int array[size] = {32, 2, 5,99, 23,54, 9, 4, 7, 98, 6, 1, 235, 1};
+    int size = 17;
+    int array[size] = {32, 2, 5,99, 23,54, 9, 4, 7, 98, 6, 1, 235, 1, 823, 98, 12};
     insertArrayToTree(root, array, size);
     int arrayPos = 0;
     sortArray(root, array, arrayPos);
@@ -62,5 +81,6 @@ int main(){
     for(int i = 0; i <= size; i++){
         cout << array[i] << " ";
     }
-    
+    cout << '\n';
+    searchTree(root, 35);
 }
