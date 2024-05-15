@@ -14,19 +14,21 @@ struct node{
     left = right = NULL;
   }
 };
-void sortArray(node* rootNode, int(&arrayToSort)[] ){
+void sortArray(node* rootNode, int(&arrayToSort)[], int  &arrayPos  ){
    if(rootNode == NULL){
-        Max += 1;
+         arrayPos += 1;
+         Max += 1;
         return;
     }
-    
-    sortArray(rootNode->left, arrayToSort);
-    rootNode->pos += Max;
+     
+    sortArray(rootNode->left, arrayToSort, arrayPos );
+    rootNode->pos += arrayPos;
     arrayToSort [rootNode->pos - 1 ] = rootNode->data;
-    sortArray(rootNode->right, arrayToSort);
+    sortArray(rootNode->right, arrayToSort, arrayPos);
+   
 }
  
-struct node* insertNode(node* newNode, int x){
+struct node* insertNode(node* newNode, int  x){
     
         if(newNode == NULL){
             return new node(x, 0);
@@ -50,16 +52,13 @@ void insertArrayToTree(node* newNode, int array[], int size){
 }
 int main(){
     node* root;
-    node* newNode;
-    
     root = new node(12, 0);   
-    
     int size = 14;
     int array[size] = {32, 2, 5,99, 23,54, 9, 4, 7, 98, 6, 1, 235, 1};
     insertArrayToTree(root, array, size);
-    sortArray(root, array);
-    
-    cout << "\nSorted Array" << '\n';
+    int arrayPos = 0;
+    sortArray(root, array, arrayPos);
+    cout << "Sorted Array" << '\n';
     for(int i = 0; i <= size; i++){
         cout << array[i] << " ";
     }
